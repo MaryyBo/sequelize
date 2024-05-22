@@ -49,20 +49,39 @@ module.exports.deleteByPk = async (req, res, next) => {
     }
 }
 
+//СТАТИЧНИЙ МЕТОД - працює з усією таблицей
+// module.exports.updateUser = async (req, res, next) => {
+//     try {
+//         const { params: { id }, body } = req;
+
+//         const updatedUsersArray = await User.update(body, {
+//             where: {
+//                 id: id
+//             },
+//             returning: true
+//         });
+        
+//             return res.status(200).send(updatedUsersArray);
+
+//     } catch (error) {
+//         next(error);
+//     }
+// }
+
 module.exports.updateUser = async (req, res, next) => {
     try {
         const { params: { id }, body } = req;
+        //1. Знаходимо конкретного юзера, дії над яким треба вчинити
+        const foundUser = await User.findByPk(id)
 
-        const updatedUsersArray = await User.update(body, {
-            where: {
-                id: id
-            },
-            returning: true
-        });
-        
-            return res.status(200).send(updatedUsersArray);
+        //2. Вчинити дії, над знайденим юзером
+       const result = await foundUser.update(body);
 
-    } catch (error) {
+       //3. Закриваємо з'єднання з певним кодом з клієнтом і повертаємо результат
+       return res.status(200).send(result);
+
+    }catch (error) {
         next(error);
     }
 }
+   
