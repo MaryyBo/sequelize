@@ -52,11 +52,7 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         isDate: true,
         // дата народження НЕ пізніше сьогодні
-        isValidDate(value) {
-          if (isAfter(new Date(value), new Date()) ) {
-            throw new Error('Your birthday must be earlier than today')
-          }
-        }
+        isBefore: new Date().toDateString() //перетворює дату в строку
       }
     },
     gender: {
