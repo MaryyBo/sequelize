@@ -2,14 +2,11 @@ const { Task, User } = require('../models/index')
 
 module.exports.createTask = async (req, res, next) => {
     try {
-        const { body, params: { userId } } = req;
-
-        //1. Потрібно знайти того самого юзера, якому потрібно додати таски
-
-        const user = await User.findByPk(userId);
+        const { body, userInstance } = req;
+      
         //2. Потрібно додати цьмоу юзеру таски
         // parent.createChild(body)
-         const result = await user.createTask(body);
+         const result = await userInstance.createTask(body);
 
          return res.status(201).send(result);
 
@@ -21,14 +18,11 @@ module.exports.createTask = async (req, res, next) => {
 
 module.exports.getAllUserTasks = async (req, res, next) => {
     try {
-        const { params: { userId } } = req;
-
-        //1. Потрібно знайти того самого юзера, таски якого на мпотрібно знайти
-        const user = await User.findByPk(userId);
+        const { userInstance } = req;
        
         //2. Потрібно витягнути всі таски знайденого юзера
         // parent.getChildren()  
-        const tasks = await user.getTasks();
+        const tasks = await userInstance.getTasks();
 
          return res.status(200).send(tasks);
 
@@ -39,14 +33,11 @@ module.exports.getAllUserTasks = async (req, res, next) => {
 
 module.exports.getCountOfTasks = async (req, res, next) => {
     try {
-        const { params: { userId } } = req;
-
-        //1. Потрібно знайти того самого юзера, таски якого на мпотрібно підрахувати
-        const user = await User.findByPk(userId);
+        const { userInstance } = req;
        
         //2. Потрібно підрахувати кількість тасок знайденого юзера
         // parent.сountChildren()  
-        const countedTasks = await user.countTasks();
+        const countedTasks = await userInstance.countTasks();
 
          return res.status(200).send(`${countedTasks}`);
 

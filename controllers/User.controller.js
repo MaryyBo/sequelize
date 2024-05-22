@@ -3,8 +3,8 @@ const { User } = require('../models/index')
 module.exports.createUser = async (req, res, next) => {
     try {
         const { body } = req;
-        const createduser = await User.create(body);
-        return res.status(201).send(createduser);
+        const createdUser = await User.create(body);
+        return res.status(201).send(createdUser);
     } catch (error) {
         next(error);
     }
@@ -21,9 +21,9 @@ module.exports.findAll = async (req, res, next) => {
 
 module.exports.findByPk = async (req, res, next) => {
     try {
-        const { params: { id } } = req;
-        const foundUser = await User.findByPk(id)
-        return res.status(200).send(foundUser)
+        const { userInstance } = req;
+
+        return res.status(200).send(userInstance)
     } catch (error) {
         next(error);
     }
@@ -31,10 +31,10 @@ module.exports.findByPk = async (req, res, next) => {
 
 module.exports.deleteByPk = async (req, res, next) => {
     try {
-        const { params: { id } } = req;
+        const { params: { UserId } } = req;
         const rowsCount = await User.destroy({
             where: {
-                id: id
+                id: UserId
             }
         });
 
@@ -60,7 +60,7 @@ module.exports.deleteByPk = async (req, res, next) => {
 //             },
 //             returning: true
 //         });
-        
+
 //             return res.status(200).send(updatedUsersArray);
 
 //     } catch (error) {
@@ -70,18 +70,20 @@ module.exports.deleteByPk = async (req, res, next) => {
 
 module.exports.updateUser = async (req, res, next) => {
     try {
-        const { params: { id }, body } = req;
-        //1. Знаходимо конкретного юзера, дії над яким треба вчинити
-        const foundUser = await User.findByPk(id)
+        const { body } = req;
+        // //1. Знаходимо конкретного юзера, дії над яким треба вчинити
+        // const foundUser = await User.findByPk(id)
+
+        const { userInstance } = req;
 
         //2. Вчинити дії, над знайденим юзером
-       const result = await foundUser.update(body);
+        const result = await userInstance.update(body);
 
-       //3. Закриваємо з'єднання з певним кодом з клієнтом і повертаємо результат
-       return res.status(200).send(result);
+        //3. Закриваємо з'єднання з певним кодом з клієнтом і повертаємо результат
+        return res.status(200).send(result);
 
-    }catch (error) {
+    } catch (error) {
         next(error);
     }
 }
-   
+
