@@ -1,10 +1,9 @@
 'use strict';
-const isAfter = require('date-fns/isAfter')
-
-const { Model } = require('sequelize');
-
+const isAfter = require('date-fns/isAfter');
+const {
+  Model
+} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-
   class User extends Model {
     /**
      * Helper method for defining associations.
@@ -14,16 +13,21 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       User.hasMany(models.Task, {
         foreignKey: 'userId'
-      })
+      });
+
+      User.belongsToMany(models.Group, {
+        through: 'users_to_groups',
+        foreignKey: 'userId' // зовнішній ключ, який буде представляти модель юзера
+      });
     }
   }
   User.init({
     firstName: {
-      field: 'first_name', //через field приводимо до snake_case
+      field: 'first_name',
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        notNull:true,
+        notNull: true,
         notEmpty: true
       }
     },
@@ -32,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        notNull:true,
+        notNull: true,
         notEmpty: true
       }
     },
@@ -41,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       unique: true,
       validate: {
-        notNull:true,
+        notNull: true,
         notEmpty: true
       }
     },
@@ -53,8 +57,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATEONLY,
       validate: {
         isDate: true,
-        // дата народження НЕ пізніше сьогодні
-        isBefore: new Date().toDateString() //перетворює дату в строку
+        // дата народження не була пізніше, ніж сьогоднішня дата
+        isBefore: new Date().toDateString()
       }
     },
     gender: {
@@ -64,7 +68,7 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'User',
     tableName: 'users',
-    underscored: true //автоматично згенеровані стовпці з camelCase приведуться до snake_case
+    underscored: true // created_at, updated_at
   });
   return User;
 };
