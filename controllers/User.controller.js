@@ -123,6 +123,7 @@ module.exports.getUserWithGroups = async (req, res, next) => {
 
         //2. Отримуємо і юзера і групи за ОДИН запит
         const userWithGroups = await User.findByPk(userId, {
+            attributes: ['id', 'first_name', 'last_name'], //працює на таблицю Users
             include: [
                 {
                     model: Group,
@@ -137,6 +138,8 @@ module.exports.getUserWithGroups = async (req, res, next) => {
         if (!userWithGroups) {
             throw new UserError('User is not found');
         }
+
+        // Перед відправкою на сервер треба видалити пароль з результату запиту 
 
         return res.status(200).send(userWithGroups);
 
