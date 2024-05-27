@@ -1,6 +1,6 @@
 const { User } = require('../models');
 const { USER_SCHEMA } = require('../schemas/user.schema');
-const UserError = require('../errors/UserNotFound');
+const UserNotFound = require('../errors/UserNotFound');
 
 module.exports.getUserInstance = async(req, res, next) => {
     try {
@@ -8,7 +8,7 @@ module.exports.getUserInstance = async(req, res, next) => {
         const user = await User.findByPk(userId);
 
         if(!user) { // НЕ юзер , якщо юзера не знайдено
-            throw new UserError('User not found!');
+            throw new UserNotFound('User not found!');
         }
         
         req.userInstance = user;
