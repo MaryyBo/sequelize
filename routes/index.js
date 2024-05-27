@@ -36,7 +36,8 @@ router.post('/groups', GroupController.createGroup);
 // PUT http://localhost:5000/api/groups/:userId/:groupId
 router.put('/groups/:userId/:groupId', getUserInstance, GroupController.addUserToGroup);
 // GET http://localhost:5000/api/groups/:userId
-
 router.get('/groups/:userId', getUserInstance, GroupController.getUserGroups);
+// DELETE http://localhost:5000/api/groups/:userId/:groupId
+router.delete('/groups/:userId/:groupId', getUserInstance, GroupController.deleteUserFromGroup);
 
 module.exports = router;

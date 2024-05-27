@@ -42,20 +42,43 @@ module.exports.addUserToGroup = async (req, res, next) => {
 //Знаходження всіх групп, якогось конкретного юзера
 
 module.exports.getUserGroups = async (req, res, next) => {
-    try {
-      // 1. Знайти користувача, групи якого нам потрібно знайти
-      const { userInstance } = req;
+  try {
+    // 1. Знайти користувача, групи якого нам потрібно знайти
+    const { userInstance } = req;
 
-      // 2. Знайти групи користувача
-      // parent.getChildren
+    // 2. Знайти групи користувача
+    // parent.getChildren
 
-      const groups = await userInstance.getGroups();
+    const groups = await userInstance.getGroups();
 
-      return res.status(200).send(groups)
+    return res.status(200).send(groups)
 
-    } catch (error) {
-      next(error);
-    }
+  } catch (error) {
+    next(error);
   }
+}
 
- 
+module.exports.deleteUserFromGroup = async (req, res, next) => {
+  try {
+    // 1. Знайти користувача
+    const { userInstance, params: { groupId } } = req;
+
+    // 2. Знайти групн з якої видаляємо користувача
+
+    const groupInstance = await Group.findByPk(groupId);
+
+    //3. Видалити користувача з групи
+    // parent.removechild(child)
+
+    const rowCount = await groupInstance.removeUser(userInstance);
+
+    if (rowCount > 0) {
+      return res.status(200).send('User successfully deleted')
+    } else {
+      return res.status(400).send('User is never been in this group ')
+    }
+
+  } catch (error) {
+    next(error);
+  }
+}
