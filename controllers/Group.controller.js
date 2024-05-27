@@ -1,33 +1,44 @@
 const { Group } = require('../models');
 
-module.exports.createGroup = async(req, res, next) => {
+// 1. Створення групи
+
+module.exports.createGroup = async (req, res, next) => {
   try {
     const { body } = req;
 
+    console.log(body, 'BODY');
+
     const created = await Group.create(body);
+
+    console.log(created, 'CREATED_GROUP');
 
     return res.status(201).send(created);
   } catch (error) {
+    console.log(error, 'ERROR');
     next(error);
   }
 }
 
-module.exports.addUserToGroup = async(req, res, next) => {
+// 2 Додавання юзера до групи
+
+module.exports.addUserToGroup = async (req, res, next) => {
   try {
     const { userInstance, params: { groupId } } = req;
 
     // 1. Знайти сутність групи, у яку потрібно додати юзера
-    const groupInstance = await Group.findByPk(groupId);
+    const group = await Group.findByPk(groupId);
 
     // 2. Додаємо в знайдену групу юзера
     // parent.addChild(child)
-    const result = await groupInstance.addUser(userInstance);
+    const result = await group.addUser(userInstance);
 
     return res.status(200).send('User successfully added to group');
+
   } catch (error) {
     next(error);
   }
 }
 
-// 1. Створення групи
-// 2 Додавання юзера до групи
+
+
+
