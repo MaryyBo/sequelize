@@ -1,4 +1,4 @@
-const { Group } = require('../models');
+const { Group, User } = require('../models');
 
 // 1. Створення групи
 
@@ -39,6 +39,23 @@ module.exports.addUserToGroup = async (req, res, next) => {
   }
 }
 
+//Знаходження всіх групп, якогось конкретного юзера
 
+module.exports.getUserGroups = async (req, res, next) => {
+    try {
+      // 1. Знайти користувача, групи якого нам потрібно знайти
+      const { userInstance } = req;
 
+      // 2. Знайти групи користувача
+      // parent.getChildren
 
+      const groups = await userInstance.getGroups();
+
+      return res.status(200).send(groups)
+
+    } catch (error) {
+      next(error);
+    }
+  }
+
+ 
