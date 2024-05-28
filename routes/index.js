@@ -7,7 +7,7 @@ const router = Router();
 
 router.use('/users', userRouter);
 router.use('/tasks', taskRouter);
-router.use('/group', groupRouter);
+router.use('/groups', groupRouter);
 
 
 module.exports = router;
