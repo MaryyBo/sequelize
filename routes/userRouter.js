@@ -4,13 +4,14 @@
 const { Router } = require('express');
 const UserController = require('../controllers/User.controller');
 const { getUserInstance, validateUser } = require('../middlewares/user.mw');
+const pagination = require ('../middlewares/pagination.mw');
 
 const userRouter = Router()
 
 // POST http://localhost:5000/api/users
 userRouter.post('/', validateUser, UserController.createUser);
 // GET http://localhost:5000/api/users
-userRouter.get('/', UserController.findAll);
+userRouter.get('/', pagination, UserController.findAll);
 // GET http://localhost:5000/api/users/25
 userRouter.get('/:userId', getUserInstance, UserController.findByPk);
 // GET http://localhost:5000/api/users/groups/userId
