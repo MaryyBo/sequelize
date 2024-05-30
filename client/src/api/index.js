@@ -1,3 +1,5 @@
+// ЗАПИТИ НА СЕРВЕР
+
 export const getUsers = async (pageNumber) => {
     const limit = 5 // 5 юзерів на сторінці
 
@@ -8,7 +10,7 @@ export const getUsers = async (pageNumber) => {
 
     const response = await fetch(url);
 
-    const data = await response.json();
+    const data = await response.json(); //перетворюємо 0 та 1 на валідний javaScript об'єкт
 
 
     return data;
