@@ -4,13 +4,13 @@ const { Router } = require('express');
 const { getUserInstance } = require('../middlewares/user.mw');
 const GroupController = require('../controllers/Group.controller');
 const multer = require('multer')
-const path = require('path');
+const { STATIC_PATH } = require('../config/path.config');
 
 // const upload = multer({ dest: path.resolve(__dirname,'../public/images') })
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, path.resolve(__dirname, '../public/images'))
+        cb(null, STATIC_PATH) // STATIC_PATH замість path.resolve(__dirname, '../public/images')
     },
     filename: function (req, file, cb) {
 
@@ -39,7 +39,7 @@ groupRouter.post('/:groupId', upload.single('groupAvatar'), GroupController.crea
 module.exports = groupRouter;
 
 /*
-1. Як фізично передати файл на сервер? Як зберегти файл на сервері?
-2. Як прописати шлях до файлу (image_path) відповідній групі?
-3. Як отримати файл з серверу?
+1. Як фізично передати файл на сервер? Як зберегти файл на сервері? (multer)
+2. Як прописати шлях до файлу (image_path) відповідній групі? (controller)
+3. Як отримати файл з серверу? (express)
  */
