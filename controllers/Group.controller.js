@@ -113,12 +113,21 @@ module.exports.getGroupWithMembers = async (req, res, next) => {
 }
 
 
-module.exports.createGroupImage = async (req,res, next) => {
+module.exports.createGroupImage = async (req, res, next) => {
   try {
-    const { params: { groupId } } = req;
-    console.log(req.file);
+    const { params: { groupId }, file: { filename } } = req;
+    // console.log(req.file);
 
-    return res.send({groupId});
+   const [ rowCount, [updatedGroup]] = await Group.update({ // деструктуризація не обов'язкова
+      imagePath: filename
+    }, {
+      where: {
+        id: groupId
+      },
+      returning: true // поверне нам вже ОНОВЛЕНУ сутність з таблиці
+    })
+
+    return res.status(200).send({ updatedGroup });
 
   } catch (error) {
     next(error);
