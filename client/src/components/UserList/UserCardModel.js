@@ -1,6 +1,8 @@
 import Modal from 'react-modal';
 import React from 'react';
 
+Modal.setAppElement('#root');
+
 const customStyles = {
   content: {
     top: '50%',
@@ -8,7 +10,7 @@ const customStyles = {
     right: 'auto',
     bottom: 'auto',
     marginRight: '-50%',
-    transform: 'translate(-50%, -50%)'
+    transform: 'translate(-50%, -50%)',
   },
 };
 
