@@ -1,6 +1,7 @@
 'use strict';
-const { Model } = require('sequelize');
-
+const {
+  Model
+} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Task extends Model {
     /**
@@ -11,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Task.belongsTo(models.User, {
         foreignKey: 'userId'
-      })
+      });
     }
   }
   Task.init({
@@ -25,17 +26,14 @@ module.exports = (sequelize, DataTypes) => {
     isDone: {
       field: 'is_done',
       type: DataTypes.BOOLEAN,
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
+      allowNull: false
     },
     deadline: {
       type: DataTypes.DATE,
       validate: {
         isDate: true
       }
-    }
+    },
   }, {
     sequelize,
     modelName: 'Task',
@@ -45,11 +43,10 @@ module.exports = (sequelize, DataTypes) => {
   return Task;
 };
 
-// ЯК СТВОРИТИ ЗВʼЯЗКИ МІЖ ТАБЛИЦЯМИ
 
-/*
+/* Як створити зв'язок між моделями?
 
-1. На рівні таблиць (міграції) мати стовпці з зовнішнім ключем (implement foreign key)
-2. Прописати асоціації (зв'язки) на рівні моделей (метод associate в моделі)
++ 1. На рівні таблиць (міграції) мати стовпці з зовнішнім ключем (implement foreign key)
++ 2. Прописати асоціації (зв'язки) на рівні моделей (метод associate в моделі)
 
 */

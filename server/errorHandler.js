@@ -1,12 +1,12 @@
 const { ValidationError } = require('yup');
-const UserNotFound = require('./errors/UserNotFound');
+const UserError = require('./errors/UserError');
 
 module.exports.errorHandler = async(err, req, res, next) => {
     if(err instanceof ValidationError) {
         return res.status(400).send(err.message);
     }
 
-    if(err instanceof UserNotFound) {
+    if(err instanceof UserError) {
         return res.status(404).send(err.message);
     }
 } 

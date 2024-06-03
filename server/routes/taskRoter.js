@@ -1,13 +1,12 @@
-// TASK routes section
-
 const { Router } = require('express');
-const { validateTask } = require('../middlewares/task.mw');
-const { getUserInstance } = require('../middlewares/user.mw');
+const { validateTask } = require('../middlewares/task.mv');
+const { getUserInstance } = require('../middlewares/user.mv');
 const TaskController = require('../controllers/Task.controller');
-const pagination = require('../middlewares/pagination.mw')
+const pagination = require('../middlewares/pagination.mv');
 
 const taskRouter = Router();
 
+// task routes section
 // POST http://localhost:5000/api/tasks/25
 taskRouter.post('/:userId', validateTask, getUserInstance, TaskController.createTask);
 // GET http://localhost:5000/api/tasks/25

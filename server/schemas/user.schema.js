@@ -1,4 +1,3 @@
-
 const yup = require('yup');
 
 module.exports.USER_SCHEMA = yup.object({

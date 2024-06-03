@@ -25,8 +25,8 @@ module.exports = {
         allowNull: false
       },
       isDone: {
-        field: 'is_done',
         type: Sequelize.BOOLEAN,
+        field: 'is_done',
         allowNull: false
       },
       deadline: {

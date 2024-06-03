@@ -1,13 +1,9 @@
+import UserList from "./UserList/UserList";
+import GroupList from "./GroupList/GroupList";
 
-import React from 'react';
-import UserList from './UserList/UserList';
-
-
-const App = () => {
+function App() {
   return (
-    <div>
-      <UserList/>
-    </div>
+    <GroupList />
   );
 }
 
